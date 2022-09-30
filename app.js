@@ -1,11 +1,18 @@
-import * as THREE from './build/three.module.js';
+import * as THREE from 'three';
 import * as dat from './jsm/libs/lil-gui.module.min.js';
+// import { OrbitControls } from './modules/OrbitControls.js';
+
 // import { FlyControls } from './FlyControls.js';
 // import { FirstPersonControls } from './modules/FirstPersonControls.js';
 // import { FlyControls } from 'three/addons/controls/FlyControls.js';
 // scene
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x000000, 0.00000025);
+
+// controls
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.update();
+// renderer.render(scene, camera);
 
 // viewport size variables
 const MARGIN = 0;
@@ -61,6 +68,41 @@ const matcapFlatGreen = textureLoader.load('./assets/matcap-shiny-flat-green.png
 // clock and animation function
 // const clock = new THREE.Clock();
 
+// cube
+const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshMatcapMaterial({
+        matcap: matcapFlatGreen,
+    }),
+);
+scene.add(cube);
+
+// adding cubes
+function addCubes() {
+
+    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapFlatGreen });
+
+    for (let i = 0; i < 250; i++) {
+
+        const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        cube.position.x = (Math.random() - 0.5) * 50;
+        cube.position.y = (Math.random() - 0.5) * 50 + 2;
+        cube.position.z = (Math.random() - 0.5) * 50;
+
+        cube.rotation.x = Math.random() * Math.PI;
+        cube.rotation.y = Math.random() * Math.PI;
+
+        const scale = Math.random();
+        cube.scale.set(scale, scale, scale);
+
+        scene.add(cube);
+    }
+
+}
+
+addCubes();
+
 const tick = () => {
     // const elapsedTime = clock.getElapsedTime();
     // const delta = clock.getDelta();
@@ -68,6 +110,9 @@ const tick = () => {
     renderer.render(scene, camera);
     // flyControls.update(1.0);
     // firstPersonControls.update(1.0);
+    // controls.handleResize();
+    cube.rotation.y += 0.02;
+
 }
 
 tick();
@@ -96,14 +141,6 @@ function onWindowResize() {
 
 window.addEventListener('resize', onWindowResize, false);
 
-// cube
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshMatcapMaterial({
-        matcap: matcapFlatGreen,
-    }),
-);
-scene.add(cube);
 
 // gui
 const gui = new dat.GUI();
