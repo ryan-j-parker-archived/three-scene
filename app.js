@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import * as dat from './jsm/libs/lil-gui.module.min.js';
 // import { OrbitControls } from './modules/OrbitControls.js';
+import { OrbitControls } from './jsm/controls/OrbitControls.js';
 
 // import { FlyControls } from './FlyControls.js';
 // import { FirstPersonControls } from './modules/FirstPersonControls.js';
